@@ -4,12 +4,12 @@
 
 ## Prerequisites
 
-For this project we need to install the necessary tools: microK8s, Helm and Jenkins
+For this project we need to install the necessary tools: MicroK8s, Helm and Jenkins
 
-## microK8s
+## MicroK8s
 
 We need to have a Kubernetes cluster up and running. I'm doing the exercise on Ubuntu so in this case i will use microK8s.
-To install microK8s on Linux we use the following command:
+To install MicroK8s on Linux we use the following command:
 
 ```console
 sudo snap install microk8s --classic
@@ -20,7 +20,7 @@ We can check the status of microk8s and the services with the command:
 sudo microk8s status
 ```
 
-Helm is enabled by default.
+Helm is enabled by default in Microk8s.
 Additionally here is the list of all [Available addons](https://microk8s.io/docs/addons) that can be enabled.
 
 In my case i enabled DNS, hostpath-storage ...
