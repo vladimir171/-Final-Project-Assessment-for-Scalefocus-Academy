@@ -128,4 +128,88 @@ After this we install the recomended plugins and wait for them to finish
 
 ### Installing the Kubernetes plugin and configuration in Jenkins
 
-  
+From the sidebar on the Jenkins Dashboard we select **Manage Jenkins**, then we go to **Manage Plugins**.
+From the sidebar we select **Available plugins** and search for **kubernetes**.
+We select the checkbox and **Install without restart**, we can restart Jenkins after the installation is finished.
+
+Now we can navigate back to **Manage Jenkins** and go to **Manage Nodes and Clouds**
+From the sidebar we selec **Configure Clouds** and from the dropdown Add a new cloud we select **Kubernetes**
+
+Here we need to set the following parametars:
+
+Name = kubernetes
+
+Credentials
+We go to Add > Jenkins
+- Under Kind we select **Secret File** from the dropdown
+- Under File we click Browse... and navigate to $HOME/.kube/config and select the config file
+- We leave the other settings to default and click Add
+
+We can now select config (certificate config) from the dropdown and **Test Connection**
+
+Because all the information including url, token, secret, user are contained in the file we don't need to set the Kubernetes URL
+
+Jenkins URL = http://127.0.0.1:8080
+Jenkins tunnel = http://127.0.0.1:50000
+
+We add Pod Template with the following settings:
+
+Name = kube
+Labels = kubepods
+
+We add Container with the following settings:
+
+Name = jnlp
+Docker image = jenkins/jnlp-slave:latest
+Working directory = /home/jenkins/
+
+We add Environment Variable
+Key = JENKINS_URL
+Value = http://127.0.0.1:8080
+
+Pod Retention = Never
+
+We leave the rest to default and click Save
+
+### Creating the pipeline
+
+From the sidebar we select **+ New item**, we enter the name Helm-Wordpress and select Pipeline
+
+We go down to **Pipeline** and we can write our first pipeline to check if wp namespace exists, if it doesn't then it creates one
+
+```console
+pipeline {
+    agent any
+    
+    stages {
+        stage('Check and Create Namespace') {
+            steps {
+                script {
+                    // Check if the 'wp' namespace exists
+                    def namespace ='wp'
+                    def namespaceExists = false
+                    
+                    try {
+                        sh(returnStdout: true, script: "microk8s kubectl get namespaces ${namespace} | grep -w ${namespace}").trim()
+                        namespaceExists = true
+                    } catch (Exception e) {
+                        echo "Namespace $namespace does not exist."
+                    }
+                    
+                    if (namespaceExists) {
+                        echo "Namespace $namespace already exists."
+                    } else {
+                        echo "Namespace $namespace does not exist. Creating..."
+                        sh "microk8s kubectl create namespace $namespace"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+The job is successfull and we can see the Console Output
+
+Also we can check from terminal to verify that the namespace was created
+
+
