@@ -126,6 +126,6 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 After this we install the recomended plugins and wait for them to finish
 
-### Installing the Kubernetes plugin and configuration
+### Installing the Kubernetes plugin and configuration in Jenkins
 
   
