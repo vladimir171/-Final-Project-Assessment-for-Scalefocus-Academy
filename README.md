@@ -8,13 +8,13 @@ For this project we need to install the necessary tools: MicroK8s, Helm and Jenk
 
 ## MicroK8s
 
-We need to have a Kubernetes cluster up and running. I'm doing the exercise on Ubuntu so in this case i will use microK8s.
+We need to have a Kubernetes cluster up and running. I'm doing the exercise on Ubuntu so in this case i will use MicroK8s.
 To install MicroK8s on Linux we use the following command:
 
 ```console
 sudo snap install microk8s --classic
 ```
-We can check the status of microk8s and the services with the command:
+We can check the status of Microk8s and the services with the command:
 
 ```console
 sudo microk8s status
