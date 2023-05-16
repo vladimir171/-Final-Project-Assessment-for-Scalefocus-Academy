@@ -212,4 +212,30 @@ The job is successfull and we can see the Console Output
 
 Also we can check from terminal to verify that the namespace was created
 
+Now for the next step we check if WordPress exists, if it doesn't then it installs the chart
 
+```console
+stage('Check and Install WordPress') {
+            steps {
+                
+                script {
+                    withEnv(['KUBECONFIG=/var/snap/microk8s/current/credentials/client.config']) {
+                        def podName = sh(
+                            script: 'microk8s kubectl get pods -n wp --output=jsonpath="{.items[*].metadata.name}"',
+                            returnStdout: true
+                            ).trim()
+                          
+                          if (!podName.contains('my-wordpress')) {
+                                stage('Install Helm chart') {
+                                  steps {
+                                    sh "helm install my-wordpress --set wordpressUsername=admin --set wordpressPassword=Password123 --set  service.type=ClusterIP oci://registry-1.docker.io/bitnamicharts/wordpress -n wp"
+                                    }
+                                }
+                            }else {
+                                echo "WordPress release already exists."
+                            }
+                    }
+                }
+            }
+        }
+```
