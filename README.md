@@ -322,4 +322,6 @@ We can now open the browser and load the Home page
 
 ![Screenshot from 2023-05-16 14-42-31](https://github.com/vladimir171/Final-Project-Assessment-for-Scalefocus-Academy/assets/33956834/22d6c887-46c7-4f5a-a106-b259c01e37f7)
 
+And we can test the login credentials that we set
 
+![Screenshot from 2023-05-16 14-57-19](https://github.com/vladimir171/Final-Project-Assessment-for-Scalefocus-Academy/assets/33956834/401bcd8b-8d65-4a0c-914f-e547438c4489)
